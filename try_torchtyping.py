@@ -21,7 +21,7 @@ def xor(a, b):
         return [1, 0]
 
 
-# vmap only avalable in nightly
+# would love to use `torch.vmap` but it is only avalable in nightly
 # https://pytorch.org/tutorials/prototype/vmap_recipe.html
 data_y = torch.FloatTensor([xor(*t) for t in data_x])
 
@@ -40,7 +40,6 @@ for i in range(0, len(data_x), BATCH_SIZE):
 
     optim.zero_grad()
     logits = model(batch_x)
-    #logits = model(torch.randn((4,5))) # this is caught with patch typeguard but not pytest?
     loss = criterion(logits, batch_y)        
 
     if i % 1024 == 0:
